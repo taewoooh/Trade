@@ -1,4 +1,4 @@
-package com.example.trade;
+package com.example.trade.tradelist;
 
 
 import com.google.gson.annotations.Expose;
@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName;
  * Created by taewoo on 2019-11-16.
  */
 
-public class Daydatalistitem {
+public class Renttradelistitem {
 
-    public Daydatalistitem(String si,  int year, int month, int yearmonth,int trade, String per ,int hightrade,
-                           int highyear,int highmonth, int rowtrade, int rowyear,int rowmonth,String updatetime) {
+    public Renttradelistitem(String si, int year, int month, int yearmonth, int trade, String per , int hightrade,
+                             int highyear, int highmonth, int rowtrade, int rowyear, int rowmonth, String updatetime) {
 
         this.si = si;
         this.year = year;
@@ -35,8 +35,8 @@ public class Daydatalistitem {
 
 
     }
-    public Daydatalistitem(String si,  int year, int month, int yearmonth,int trade, String per ,int hightrade,
-                           int highyear,int highmonth, int rowtrade, int rowyear,int rowmonth,String updatetime,String ym) {
+    public Renttradelistitem(String si, int year, int month, int yearmonth, int trade, String per , int hightrade,
+                             int highyear, int highmonth, int rowtrade, int rowyear, int rowmonth, String updatetime, String ym) {
 
         this.si = si;
         this.year = year;

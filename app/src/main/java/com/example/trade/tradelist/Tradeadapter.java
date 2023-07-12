@@ -1,4 +1,4 @@
-package com.example.trade;
+package com.example.trade.tradelist;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,16 +13,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trade.R;
+import com.example.trade.Util;
+
 import java.util.ArrayList;
 
 
-public class Daydataadapter extends RecyclerView.Adapter<Daydataadapter.ViewHolder> {
+public class Tradeadapter extends RecyclerView.Adapter<Tradeadapter.ViewHolder> {
 
     Context context;
-    Daydatalistitem item2 = null;
-    private ArrayList<Daydatalistitem> listviewitem;
+    Buytradelistitem item2 = null;
+    private ArrayList<Buytradelistitem> listviewitem;
 
-    public Daydataadapter(Context context, ArrayList<Daydatalistitem> listviewitem) {
+    public Tradeadapter(Context context, ArrayList<Buytradelistitem> listviewitem) {
         this.listviewitem = listviewitem;
         this.context=context;
     }
@@ -39,7 +42,7 @@ public class Daydataadapter extends RecyclerView.Adapter<Daydataadapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         int safePosition = holder.getAdapterPosition();
-        Daydatalistitem item = listviewitem.get(safePosition);
+        Buytradelistitem item = listviewitem.get(safePosition);
 
 
 

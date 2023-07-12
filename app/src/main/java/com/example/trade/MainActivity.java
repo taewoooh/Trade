@@ -27,6 +27,13 @@ import com.example.trade.mpline.Atradegithub1;
 import com.example.trade.mpline.Atradegithub2;
 import com.example.trade.mpline.Daydatalistitem2;
 import com.example.trade.mpline.MyMarkerView2;
+import com.example.trade.tradelist.Buylistgithup;
+import com.example.trade.tradelist.Monthlistgithup;
+import com.example.trade.tradelist.Monthtradelistitem;
+import com.example.trade.tradelist.Rentlistgithup;
+import com.example.trade.tradelist.Renttradelistitem;
+import com.example.trade.tradelist.Tradeadapter;
+import com.example.trade.tradelist.Buytradelistitem;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -86,23 +93,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int rentries_c = 0;
     int mentries_c = 0;
 
+    int blist = 0;
+    int rlist = 0;
+    int mlist = 0;
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
     Handler handler;
 
     RecyclerView daydatarecyclerview;
-    ArrayList<Daydatalistitem> listViewItems;
+    ArrayList<Buytradelistitem> buylistItems;
+    ArrayList<Renttradelistitem> rentlistItems;
+    ArrayList<Monthtradelistitem> monthlistItems;
     LinearLayoutManager linearLayoutManager;
-    Daydataadapter recyclerViewAdapter;
+    Tradeadapter recyclerViewAdapter;
     CardView b1;
     private int i = 0;
+
     TextView hightrade;
     TextView hightradeyear;
     TextView rowtrade;
     TextView rowtradeyear;
-    LockableNestedScrollView scrollView;
     TextView nowtrade;
-    TextView nowtrade1;
     TextView nowtradeyear;
+
+
+    TextView hightrade_j;
+    TextView hightradeyear_j;
+    TextView rowtrade_j;
+    TextView rowtradeyear_j;
+    TextView nowtrade_j;
+    TextView nowtradeyear_j;
+
+
+    TextView hightrade_m;
+    TextView hightradeyear_m;
+    TextView rowtrade_m;
+    TextView rowtradeyear_m;
+    TextView nowtrade_m;
+    TextView nowtradeyear_m;
+
+    RelativeLayout blayout;
+    RelativeLayout jlayout;
+    RelativeLayout mlayout;
+
+
+    LockableNestedScrollView scrollView;
+    TextView nowtrade1;
+
     Progressdialog progressDialog;
     int t;
     int tx;
@@ -118,13 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        b_btn=1;
-        m_btn=1;
-        j_btn=1;
+        b_btn = 1;
+        m_btn = 1;
+        j_btn = 1;
         infor = 0;
         findview();
-
-
 
 
         //  btnch();
@@ -254,7 +289,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-                        rp = String.valueOf(bentries.get(k).getY());
                         int r = rp.indexOf(".");
                         rp = rp.substring(0, r);
 
@@ -293,14 +327,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 btntext();
                                 rchartymd.setText("전세 : " + ry + "월 / ");
-                                rchartpirce.setText("평균 : " + rp + "건 / ");
+                                rchartpirce.setText("거래건수 : " + rp + "건 / ");
                                 rchartgunsu.setText(rg + "%");
 
 
                             } else if (b_btn == 1 && j_btn == 1) {
                                 btntext();
                                 rchartymd.setText("전세 : " + ry + "월 / ");
-                                rchartpirce.setText("평균 : " + rp + "건 / ");
+                                rchartpirce.setText("거래건수 : " + rp + "건 / ");
                                 rchartgunsu.setText(rg + "%");
 
 
@@ -370,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
         daydatarecyclerview.setOnScrollListener(new RecyclerView.OnScrollListener() { //핀터레스트 카드뷰 기능
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -397,7 +430,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() { //앱 강제 종료
-
 
 
         if (System.currentTimeMillis() > backpressedTime + 2000) {
@@ -578,13 +610,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Collections.sort(bentries, new EntryXComparator());
                 entries = bentries;
 
-                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1) {
+
+
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1 && mlist == 1) {
 
                     Datasetting1();
 
 
                 }
-
 
             }
 
@@ -600,10 +633,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-
-
-
-
 
 
     public void Rtongsin(String jiyeok) { // 서버 데이터를 가지고 온다 파라미터는 불러올 테이블 이름
@@ -661,13 +690,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 rentries_c = 1;
                 Collections.sort(rentries, new EntryXComparator());
-                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1) {
+//                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1) {
+//
+//                    Datasetting1();
+//
+//
+//                }
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1 && mlist == 1) {
 
                     Datasetting1();
 
 
                 }
-
 
             }
 
@@ -740,13 +774,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 mentries_c = 1;
                 Collections.sort(mentries, new EntryXComparator());
-                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1) {
+//                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1) {
+//
+//                    Datasetting1();
+//
+//
+//                }
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1&& mlist == 1 ) {
 
                     Datasetting1();
 
 
                 }
-
 
             }
 
@@ -763,10 +802,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void Tongsin(String jiyeok) {   //통신
-
+        progressDialog.show();
         Btongsin(jiyeok);
         Rtongsin(jiyeok);
         Mtongsin(jiyeok);
+
+        Buylisttongsin(jiyeok);
+        Rentlisttongsin(jiyeok);
+        Monthlisttongsin(jiyeok);
+
     }
 
     public void Buyset() {
@@ -885,7 +929,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void Datasetting1() {
-
+        Numcounthandler(hightrade, buylistItems.get(0).getHightrade(), rowtrade, buylistItems.get(0).getRowtrade(), nowtrade, buylistItems.get(0).getTrade(),
+                hightrade_j, rentlistItems.get(0).getHightrade(), rowtrade_j, rentlistItems.get(0).getRowtrade(), nowtrade_j, rentlistItems.get(0).getTrade(),
+                hightrade_m, monthlistItems.get(0).getHightrade(), rowtrade_m, monthlistItems.get(0).getRowtrade(), nowtrade_m, monthlistItems.get(0).getTrade());
         btnGone();
 
         Buyset();
@@ -916,12 +962,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btncheck1();
         Datasetting2();
 
-
+        progressDialog.dismiss();
     }
 
     public void btnch() {
-
-
 
 
         if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("100")) {
@@ -979,13 +1023,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             j1.performClick();
             g1.performClick();
 
+            btncheck2();
+
 
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("010")) {
             m1.performClick();
             g1.performClick();
+
+            btncheck2();
+
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("001")) {
             m1.performClick();
             j1.performClick();
+
+            btncheck2();
 
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("000")) {
 
@@ -993,18 +1044,91 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             j1.performClick();
             g1.performClick();
 
+            btncheck2();
+
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("110")) {
             g1.performClick();
+
+            btncheck2();
 
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("101")) {
             j1.performClick();
 
+            btncheck2();
+
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("011")) {
             m1.performClick();
+
+            btncheck2();
 
         } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("111")) {
 
 
+            btncheck2();
+        }
+
+
+    }
+
+    public void btncheck2() {
+        Log.e("ㅅㅂ매매전세월세", "" + new TWPreference(this).getString("매매전세월세버튼2", "111"));
+
+        if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("100")) {
+
+
+            blayout.setVisibility(View.VISIBLE);
+            jlayout.setVisibility(View.GONE);
+            mlayout.setVisibility(View.GONE);
+
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("010")) {
+
+
+            blayout.setVisibility(View.GONE);
+            jlayout.setVisibility(View.VISIBLE);
+            mlayout.setVisibility(View.GONE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("001")) {
+
+
+            blayout.setVisibility(View.GONE);
+            jlayout.setVisibility(View.GONE);
+            mlayout.setVisibility(View.VISIBLE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("000")) {
+
+
+
+            blayout.setVisibility(View.GONE);
+            jlayout.setVisibility(View.GONE);
+            mlayout.setVisibility(View.GONE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("110")) {
+
+
+            blayout.setVisibility(View.VISIBLE);
+            jlayout.setVisibility(View.VISIBLE);
+            mlayout.setVisibility(View.GONE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("101")) {
+
+
+            blayout.setVisibility(View.VISIBLE);
+            jlayout.setVisibility(View.GONE);
+            mlayout.setVisibility(View.VISIBLE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("011")) {
+
+            blayout.setVisibility(View.GONE);
+            jlayout.setVisibility(View.VISIBLE);
+            mlayout.setVisibility(View.VISIBLE);
+
+        } else if (new TWPreference(this).getString("매매전세월세버튼2", "111").equals("111")) {
+
+
+            blayout.setVisibility(View.VISIBLE);
+            jlayout.setVisibility(View.VISIBLE);
+            mlayout.setVisibility(View.VISIBLE);
         }
 
 
@@ -1230,7 +1354,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void resizeCommentList(int item_size) {
 
         ViewGroup.LayoutParams params = daydatarecyclerview.getLayoutParams();
@@ -1241,7 +1364,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void Numcounthandler(TextView textView1, int textview1cnt, TextView textView2, int textview2cnt, TextView textView3, int textview3cnt) { //숫자 동적카운트 (textview1뷰에 동적으로 카운터하여 노출시킬 숫자 textview1cnt
+    public void Numcounthandler(TextView buyhightrade, int buyhightradevalue, TextView buyrowtrade, int buyrowtradevalue, TextView buynowtrade, int buynowtradevalue,
+                                TextView renthightrade, int renthightradevalue, TextView rentrowtrade, int rentrowtradevalue, TextView rentnowtrade, int rentnowtradevalue,
+                                TextView monthightrade, int monthhightradevalue, TextView monthrowtrade, int monthrowtradevalue, TextView monthnowtrade, int monthnowtradevalue) { //숫자 동적카운트 (textview1뷰에 동적으로 카운터하여 노출시킬 숫자 textview1cnt
 
 
         handler = new Handler() {
@@ -1259,20 +1384,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     rowtrade.setText(String.valueOf(i));
                     nowtrade.setText(String.valueOf(i));
 
+                    hightrade_j.setText(String.valueOf(i));
+                    rowtrade_j.setText(String.valueOf(i));
+                    nowtrade_j.setText(String.valueOf(i));
+
+                    hightrade_m.setText(String.valueOf(i));
+                    rowtrade_m.setText(String.valueOf(i));
+                    nowtrade_m.setText(String.valueOf(i));
+
                 } else {
-                    textView1.setText(String.valueOf(textview1cnt));
-                    textView2.setText(String.valueOf(textview2cnt));
-                    textView3.setText(String.valueOf(textview3cnt));
+                    buyhightrade.setText(String.valueOf(buyhightradevalue));
+                    buyrowtrade.setText(String.valueOf(buyrowtradevalue));
+                    buynowtrade.setText(String.valueOf(buynowtradevalue));
+
+                    renthightrade.setText(String.valueOf(renthightradevalue));
+                    rentrowtrade.setText(String.valueOf(rentrowtradevalue));
+                    rentnowtrade.setText(String.valueOf(rentnowtradevalue));
+
+                    monthightrade.setText(String.valueOf(monthhightradevalue));
+                    monthrowtrade.setText(String.valueOf(monthrowtradevalue));
+                    monthnowtrade.setText(String.valueOf(monthnowtradevalue));
 
 
                 }
 
+                hightradeyear.setText("(" + String.valueOf(buylistItems.get(0).getHighyear()) + "." + String.valueOf(buylistItems.get(0).getHighmonth()) + ")");
+                rowtradeyear.setText("(" + String.valueOf(buylistItems.get(0).getRowyear()) + "." + String.valueOf(buylistItems.get(0).getRowmonth()) + ")");
+                nowtradeyear.setText("(" + String.valueOf(buylistItems.get(0).getYear()) + "." + String.valueOf(buylistItems.get(0).getMonth()) + ")");
+
+                hightradeyear_j.setText("(" + String.valueOf(rentlistItems.get(0).getHighyear()) + "." + String.valueOf(rentlistItems.get(0).getHighmonth()) + ")");
+                rowtradeyear_j.setText("(" + String.valueOf(rentlistItems.get(0).getRowyear()) + "." + String.valueOf(rentlistItems.get(0).getRowmonth()) + ")");
+                nowtradeyear_j.setText("(" + String.valueOf(rentlistItems.get(0).getYear()) + "." + String.valueOf(rentlistItems.get(0).getMonth()) + ")");
+
+                hightradeyear_m.setText("(" + String.valueOf(monthlistItems.get(0).getHighyear()) + "." + String.valueOf(monthlistItems.get(0).getHighmonth()) + ")");
+                rowtradeyear_m.setText("(" + String.valueOf(monthlistItems.get(0).getRowyear()) + "." + String.valueOf(monthlistItems.get(0).getRowmonth()) + ")");
+                nowtradeyear_m.setText("(" + String.valueOf(monthlistItems.get(0).getYear()) + "." + String.valueOf(monthlistItems.get(0).getMonth()) + ")");
             }
         };
 
         myThread = new Thread(new Runnable() {
             public void run() {
                 while (true) {
+
+                    Thread.State state = myThread.getState(); //스레드 상태 얻기
+                    System.out.println("타켓 스레드 상태: " + state);
+
+                    //객체 생성 상태일 경우 실행 대기 상태로 만듦
+                    if(state ==  Thread.State.NEW){
+                        myThread.start();
+                    }
+
+                    //종료 상태일 경우 while문을 종료함
+                    if(state == Thread.State.TERMINATED){
+                        break;
+                    }
                     try {
                         handler.sendMessage(handler.obtainMessage());
                         Thread.sleep(1);
@@ -1286,7 +1451,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         myThread.start();
 
     }
-
 
 
     public void findview() {
@@ -1303,6 +1467,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linechartlayout2 = (RelativeLayout) findViewById(R.id.linechartlayout2);
         linechartlayout3 = (RelativeLayout) findViewById(R.id.linechartlayout3);
         linechartlayout4 = (RelativeLayout) findViewById(R.id.linechartlayout4);
+
+        blayout = (RelativeLayout) findViewById(R.id.blayout);
+        jlayout = (RelativeLayout) findViewById(R.id.jlayout);
+        mlayout = (RelativeLayout) findViewById(R.id.mlayout);
 
         lineChart = (LineChart) findViewById(R.id.linechart);
 
@@ -1355,43 +1523,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         progressDialog.setCancelable(false);
 
-        listViewItems = new ArrayList<>();
+        buylistItems = new ArrayList<>();
+        rentlistItems = new ArrayList<>();
+        monthlistItems = new ArrayList<>();
         title = (TextView) findViewById(R.id.title);
         b1 = (CardView) findViewById(R.id.b1);
+
+        updatetime = (TextView) findViewById(R.id.updatetime);
+
+
         hightrade = (TextView) findViewById(R.id.hightrade);
         hightradeyear = (TextView) findViewById(R.id.hightradeyear);
-        updatetime = (TextView) findViewById(R.id.updatetime);
         rowtrade = (TextView) findViewById(R.id.rowtrade);
         rowtradeyear = (TextView) findViewById(R.id.rowtradeyear);
         nowtrade = (TextView) findViewById(R.id.nowtrade);
-
         nowtradeyear = (TextView) findViewById(R.id.nowtradeyear);
+
+        hightrade_j = (TextView) findViewById(R.id.hightrade_j);
+        hightradeyear_j = (TextView) findViewById(R.id.hightradeyear_j);
+        rowtrade_j = (TextView) findViewById(R.id.rowtrade_j);
+        rowtradeyear_j = (TextView) findViewById(R.id.rowtradeyear_j);
+        nowtrade_j = (TextView) findViewById(R.id.nowtrade_j);
+        nowtradeyear_j = (TextView) findViewById(R.id.nowtradeyear_j);
+
+        hightrade_m = (TextView) findViewById(R.id.hightrade_m);
+        hightradeyear_m = (TextView) findViewById(R.id.hightradeyear_m);
+        rowtrade_m = (TextView) findViewById(R.id.rowtrade_m);
+        rowtradeyear_m = (TextView) findViewById(R.id.rowtradeyear_m);
+        nowtrade_m = (TextView) findViewById(R.id.nowtrade_m);
+        nowtradeyear_m = (TextView) findViewById(R.id.nowtradeyear_m);
 
         b1.setOnClickListener(this::onClick);
 
     }
 
-    public void DaydataTongsin(String today) { // 서버 데이터를 가지고 온다 파라미터는 불러올 테이블 이름
+    public void Buylisttongsin(String today) { // 서버 데이터를 가지고 온다 파라미터는 불러올 테이블 이름
 
-        progressDialog.show();
 
         Log.e("이거", "" + "이거");
 
 
         init();
-        Daydatagithup gitHub = retrofit.create(Daydatagithup.class);
-        Call<List<Daydatalistitem>> call = gitHub.contributors(today);
-        call.enqueue(new Callback<List<Daydatalistitem>>() {
+        Buylistgithup gitHub = retrofit.create(Buylistgithup.class);
+        Call<List<Buytradelistitem>> call = gitHub.contributors(today);
+        call.enqueue(new Callback<List<Buytradelistitem>>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             // 성공시
-            public void onResponse(Call<List<Daydatalistitem>> call, Response<List<Daydatalistitem>> result) {
-                List<Daydatalistitem> contributors = result.body();
+            public void onResponse(Call<List<Buytradelistitem>> call, Response<List<Buytradelistitem>> result) {
+                List<Buytradelistitem> contributors = result.body();
                 // 받아온 리스트를 순회하면서
 
                 Log.e("Test888", result.body().toString());
 
-                for (Daydatalistitem contributor : contributors) {
+                for (Buytradelistitem contributor : contributors) {
 
 
                     String si = contributor.si;
@@ -1411,40 +1596,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String updatetime = contributor.updatetime;
 
 
-                    Log.e("dhxodn88", "" + si + " / " + year + " / " + month + " / " + yearmonth + " ---> "
+                    Log.e("Buylisttongsin", "" + si + " / " + year + " / " + month + " / " + yearmonth + " ---> "
                             + trade + "(" + per + "%)" + " /  (최고거래건수 : " + highyear + "년 " + highmonth + "월 / " + hightrade + ")"
                             + " (최저거래건수 : " + rowyear + "년 " + rowmonth + "월 / " + rowtarde + " / 업데이트 시간 : " + updatetime + ")");
 
 
-                    listViewItems.add(new Daydatalistitem(si, year, month, yearmonth, trade, per, hightrade, highyear, highmonth, rowtarde, rowyear, rowmonth, updatetime));
+                    buylistItems.add(new Buytradelistitem(si, year, month, yearmonth, trade, per, hightrade, highyear, highmonth, rowtarde, rowyear, rowmonth, updatetime));
                     // Collections.sort(listViewItems);
                     recyclerViewAdapter.notifyDataSetChanged();
 
                 }
 
-                title.setText(listViewItems.get(0).si);
+                title.setText(buylistItems.get(0).si);
+                updatetime.setText(buylistItems.get(0).getUpdatetime());
 
-//                hightrade.setText(String.valueOf(listViewItems.get(0).getHightrade()));
-//                rowtrade.setText(String.valueOf(listViewItems.get(0).getRowtrade()));
-//                nowtrade.setText(String.valueOf(listViewItems.get(0).getTrade()));
-
-
-                  Numcounthandler(hightrade, listViewItems.get(0).getHightrade(), rowtrade, listViewItems.get(0).getRowtrade(),nowtrade,listViewItems.get(0).getTrade());
-
-                updatetime.setText(listViewItems.get(0).getUpdatetime());
-                // hightrade.setText(String.valueOf(listViewItems.get(0).getHightrade())+"건");
-                hightradeyear.setText("(" + String.valueOf(listViewItems.get(0).getHighyear()) + "." + String.valueOf(listViewItems.get(0).getHighmonth()) + ")");
-
-                //rowtrade.setText(String.valueOf(listViewItems.get(0).getRowtrade()) + " 건");
-                rowtradeyear.setText("(" + String.valueOf(listViewItems.get(0).getRowyear()) + "." + String.valueOf(listViewItems.get(0).getRowmonth()) + ")");
+                blist = 1;
 
 
-                nowtradeyear.setText("(" + String.valueOf(listViewItems.get(0).getYear()) + "." + String.valueOf(listViewItems.get(0).getMonth()) + ")");
-                progressDialog.dismiss();
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1&& mlist == 1 ) {
+
+                    Datasetting1();
+
+
+                }
+
+
+
+
+
             }
 
             @Override
-            public void onFailure(Call<List<Daydatalistitem>> call, Throwable t) {
+            public void onFailure(Call<List<Buytradelistitem>> call, Throwable t) {
 //                Toast.makeText(this, "정보받아오기 실패 " + t, Toast.LENGTH_LONG)
 //                        .show();
 
@@ -1456,7 +1639,159 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void Rentlisttongsin(String today) { // 서버 데이터를 가지고 온다 파라미터는 불러올 테이블 이름
 
+
+        Log.e("이거", "" + "이거");
+
+
+        init();
+        Rentlistgithup gitHub = retrofit.create(Rentlistgithup.class);
+        Call<List<Renttradelistitem>> call = gitHub.contributors(today);
+        call.enqueue(new Callback<List<Renttradelistitem>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            // 성공시
+            public void onResponse(Call<List<Renttradelistitem>> call, Response<List<Renttradelistitem>> result) {
+                List<Renttradelistitem> contributors = result.body();
+                // 받아온 리스트를 순회하면서
+
+                Log.e("Test888", result.body().toString());
+
+                for (Renttradelistitem contributor : contributors) {
+
+
+                    String si = contributor.si;
+                    int year = contributor.year;
+                    int month = contributor.month;
+                    int yearmonth = contributor.yearmonth;
+                    int trade = contributor.trade;
+                    String per = contributor.per;
+
+                    int hightrade = contributor.hightrade;
+                    int highyear = contributor.highyear;
+                    int highmonth = contributor.highmonth;
+
+                    int rowtarde = contributor.rowtrade;
+                    int rowyear = contributor.rowyear;
+                    int rowmonth = contributor.rowmonth;
+                    String updatetime = contributor.updatetime;
+
+
+                    Log.e("Renttradelistitem", "" + si + " / " + year + " / " + month + " / " + yearmonth + " ---> "
+                            + trade + "(" + per + "%)" + " /  (최고거래건수 : " + highyear + "년 " + highmonth + "월 / " + hightrade + ")"
+                            + " (최저거래건수 : " + rowyear + "년 " + rowmonth + "월 / " + rowtarde + " / 업데이트 시간 : " + updatetime + ")");
+
+
+                    rentlistItems.add(new Renttradelistitem(si, year, month, yearmonth, trade, per, hightrade, highyear, highmonth, rowtarde, rowyear, rowmonth, updatetime));
+                    // Collections.sort(listViewItems);
+                    // recyclerViewAdapter.notifyDataSetChanged();
+
+                }
+
+                title.setText(rentlistItems.get(0).si);
+
+                rlist = 1;
+
+
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1 && mlist == 1) {
+
+                    Datasetting1();
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Renttradelistitem>> call, Throwable t) {
+//                Toast.makeText(this, "정보받아오기 실패 " + t, Toast.LENGTH_LONG)
+//                        .show();
+
+                Log.e("onFailure", "- > " + t);
+
+            }
+        });
+
+
+    }
+
+    public void Monthlisttongsin(String today) { // 서버 데이터를 가지고 온다 파라미터는 불러올 테이블 이름
+
+
+        Log.e("이거", "" + "이거");
+
+
+        init();
+        Monthlistgithup gitHub = retrofit.create(Monthlistgithup.class);
+        Call<List<Monthtradelistitem>> call = gitHub.contributors(today);
+        call.enqueue(new Callback<List<Monthtradelistitem>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            // 성공시
+            public void onResponse(Call<List<Monthtradelistitem>> call, Response<List<Monthtradelistitem>> result) {
+                List<Monthtradelistitem> contributors = result.body();
+                // 받아온 리스트를 순회하면서
+
+                Log.e("Test888", result.body().toString());
+
+                for (Monthtradelistitem contributor : contributors) {
+
+
+                    String si = contributor.si;
+                    int year = contributor.year;
+                    int month = contributor.month;
+                    int yearmonth = contributor.yearmonth;
+                    int trade = contributor.trade;
+                    String per = contributor.per;
+
+                    int hightrade = contributor.hightrade;
+                    int highyear = contributor.highyear;
+                    int highmonth = contributor.highmonth;
+
+                    int rowtarde = contributor.rowtrade;
+                    int rowyear = contributor.rowyear;
+                    int rowmonth = contributor.rowmonth;
+                    String updatetime = contributor.updatetime;
+
+
+                    Log.e("monthtradelistitem", "" + si + " / " + year + " / " + month + " / " + yearmonth + " ---> "
+                            + trade + "(" + per + "%)" + " /  (최고거래건수 : " + highyear + "년 " + highmonth + "월 / " + hightrade + ")"
+                            + " (최저거래건수 : " + rowyear + "년 " + rowmonth + "월 / " + rowtarde + " / 업데이트 시간 : " + updatetime + ")");
+
+
+                    monthlistItems.add(new Monthtradelistitem(si, year, month, yearmonth, trade, per, hightrade, highyear, highmonth, rowtarde, rowyear, rowmonth, updatetime));
+                    // Collections.sort(listViewItems);
+                    // recyclerViewAdapter.notifyDataSetChanged();
+
+                }
+
+                title.setText(monthlistItems.get(0).si);
+
+                mlist = 1;
+
+
+                if (rentries_c == 1 && bentries_c == 1 && mentries_c == 1 && blist == 1 && rlist == 1 && mlist == 1) {
+
+                    Datasetting1();
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Monthtradelistitem>> call, Throwable t) {
+//                Toast.makeText(this, "정보받아오기 실패 " + t, Toast.LENGTH_LONG)
+//                        .show();
+
+                Log.e("onFailure", "- > " + t);
+
+            }
+        });
+
+
+    }
     public void Daydata() { //
         //  View inflate1 = LayoutInflater.from(getActivity()).inflate(R.layout.daydatajungbo, null, false);
 
@@ -1468,12 +1803,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         daydatarecyclerview.addItemDecoration(
                 new DividerItemDecoration(this, linearLayoutManager.getOrientation()));
         daydatarecyclerview.setLayoutManager(linearLayoutManager);
-        recyclerViewAdapter = new Daydataadapter(this, listViewItems);
+        recyclerViewAdapter = new Tradeadapter(this, buylistItems);
         daydatarecyclerview.setAdapter(recyclerViewAdapter);
 
 
         Tongsin(str);
-        DaydataTongsin(str);
+
 
     }
 
@@ -1494,7 +1829,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
 
-           String s = String.valueOf(b_btn) + String.valueOf(j_btn) + String.valueOf(m_btn);
+        String s = String.valueOf(b_btn) + String.valueOf(j_btn) + String.valueOf(m_btn);
 
         Log.e("버튼상태 확인onDestroy", " - > " + b_btn + " / " + j_btn + " / " + m_btn);
         new TWPreference(this).putString("매매전세월세버튼2", s);
@@ -1672,6 +2007,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     m1.setCardBackgroundColor(this.getColor(R.color.off_Btcolor));
                     m2.setTextColor(this.getColor(R.color.Off_Tcolor));
+
+
+                    blayout.setVisibility(View.GONE);
+
+
+
                     b_btn = 0;
 
                 } else {  // on
@@ -1687,11 +2028,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     m2.setTextColor(this.getColor(R.color.On_Textwcolor));
 
                     b_btn = 1;
+                    blayout.setVisibility(View.VISIBLE);
                 }
                 String s1 = String.valueOf(b_btn) + String.valueOf(j_btn) + String.valueOf(m_btn);
 
 
-                //   new TWPreference(getActivity()).putString("매매전세월세2",s1);
+//                   new TWPreference(this).putString("매매전세월세2",s1);
+//                btncheck2();
 
                 break;
 
@@ -1709,7 +2052,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                     j_btn = 0;
-
+                    jlayout.setVisibility(View.GONE);
 
                 } else {  // on
 
@@ -1723,11 +2066,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     j2.setTextColor(this.getColor(R.color.On_Textwcolor));
 
                     j_btn = 1;
-
+                    jlayout.setVisibility(View.VISIBLE);
                 }
 
                 String s2 = String.valueOf(b_btn) + String.valueOf(j_btn) + String.valueOf(m_btn);
-                //   new TWPreference(getActivity()).putString("매매전세월세2",s2);
+//                   new TWPreference(this).putString("매매전세월세2",s2);
+//                btncheck2();
                 /////////////////////////////////////////////////////////////////////////
 
                 break;
@@ -1748,7 +2092,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     m_btn = 0;
 
-
+                    mlayout.setVisibility(View.GONE);
                 } else {
                     // Timelimit();
                     MDataSet.setVisible(true);
@@ -1763,11 +2107,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     m_btn = 1;
 
-
+                    mlayout.setVisibility(View.VISIBLE);
                 }
 
                 String s3 = String.valueOf(b_btn) + String.valueOf(j_btn) + String.valueOf(m_btn);
-                //  new TWPreference(getActivity()).putString("매매전세월세2",s3);
+//                  new TWPreference(this).putString("매매전세월세2",s3);
+//                btncheck2();
 
                 break;
 
